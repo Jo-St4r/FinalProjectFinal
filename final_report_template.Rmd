@@ -16,6 +16,17 @@ output:
 
 # 1. Problem Definition
 
+The problem we are investigating is if diversity has an effect on retention rates in American 4 year college.  I think the question is important because it can show students more information about their college and how that correlates to how oithers feel about it; which can help students make more informed decisions about their college choices. 
+
+Our goal is to find out whether or not higher diversity has a positive or negative correlation if any on retention rate.
+
+Our objectives are to:
+Analyze 4 year universities 
+Compare their diversity
+Compare their retention rates
+Analyze any correlation if there is any
+
+Our main assumption is that diversity will have a positive effect on retention rate
 - Clearly state the main problem or question you are investigating.  
 - Explain why it is interesting or important.  
 - Define the objective(s) of your analysis.  
