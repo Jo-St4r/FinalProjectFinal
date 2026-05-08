@@ -34,6 +34,24 @@ Our main assumption is that diversity will have a positive effect on retention r
 
 # 2. Data Acquisition & Description
 
+The dataset we are using is called college.rds
+
+We obtained it through a 
+download link from canvas. The variables we are using are 
+UGDS_WHITE- Total share of enrollment of undergraduate degree-seeking students
+who are white
+UGDS_BLACK- Total share of enrollment of undergraduate degree-seeking 
+students who are black UGDS_HISP- Total
+share of enrollment of undergraduate degree-seeking students who are Hispanic UGDS_ASIAN- Total share of enrollment of undergraduate degree-seeking students
+who are Asian UGDS_AIAN- Total share of enrollment of undergraduate degree-seeking 
+students who are American Indian/Alaska Native 
+UGDS_NHPI- Total share of enrollment of undergraduate degree-seeking students
+who are
+Native Hawaiian/Pacific Islander
+RET_FT4- The retention rate of 4 year universities in America
+The original dataset has 2228 columns, and 5 columns, our dataset has 6614 rows
+and 7 columns. 
+
 - Name and source of the dataset(s).  
 - How you obtained the data (download link, API, etc.).  
 - Brief description of the variables / features (with units if relevant).  
