@@ -107,7 +107,7 @@ Another problem that we had to work through was working through NA's in the data
 - Any scaling or encoding.
 
 ```{r cleaning, eval=FALSE}
-college_reduced<-college%>%
+college_reduced <- college %>%
 select(
 UNITID,
 RET_FT4,
