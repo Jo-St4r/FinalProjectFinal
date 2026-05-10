@@ -221,16 +221,53 @@ This graph shows that both groups have many schools with retention rates between
 The histogram is an appropriate graph because it compares the distribution of retention rates between two sources, we used 'fill = diversity_group' to give different colors to differentiate between higher and lower diversity rates. Setting alpha to 0.5 makes the overlapping bars transparent so you can see both sets at the same time.
 
 The faceted scatterplot graph is the correct graph for looking at the amount of diversity across different regions. We faceted by region name which makes each panel reasonable, and to make the data easier to read we used 'geom_smooth(method = "lm")' to add a trend line to each graph, which shows coorelation.
+```{r}
+ggplot(college_reduced, aes(x = pct_nonwhite, y = retention_rate)) +
+  geom_point(alpha = 0.4, size = 0.4) +
+  geom_smooth(method = "lm", se = FALSE) +
+  facet_wrap(~region_name) +
+  labs(
+    title = "Diversity vs Retention by Region",
+    x = "Diversity (Non-White %)",
+    y = "Retention Rate"
+  )
+```
+This code chunk is here to find the mean retention rates of schools with lower and higher diversity, and it shows that lower diversity schools have a higher mean retention rate. 
+```{r}
+college_reduced %>%
+  group_by(diversity_group) %>%
+  summarize(mean_retention = mean(retention_rate, na.rm = TRUE))
+```
+This code chunk is here to fix errors with NA's in the null distribution code chunk, which was causing it to see 3 columns instead of two, and removes the third column that was made up of NA's.
+```{r}
+college_reduced <- college_reduced %>%
+  filter(!is.na(diversity_group))
+```
+This code chunk exists to create the null distribution, which creates 10,000 differences in means that assume that diversity has no effect on retention rate.
+```{r}
+null_distribution <- college_reduced %>%
+  specify(retention_rate ~ diversity_group) %>%
+  hypothesize(null = "independence") %>%
+  generate(10000, type = "permute") %>%
+  calculate(stat = "diff in means", order = c("Higher Diversity", "Lower Diversity"))
+```
+this is just here to show the null distribution simulations
+```{r}
+null_distribution
+``` 
+This code chunk is here to calculate the actual difference in means(−0.080404), and then store it as 'observed_stat', so we can use it for the p-value code and coorelating graph
 
+```{r}
+  observed_stat <- 0.6650291 - 0.7454331
+  observed_stat
+```
 The null distribution plot is a histogram type of graph, and shows what the differences in mean would look like if it was due to chance alone. This graph was to visualize the null distribution, and helps clarify why we got a p-value of one.
 
-
-Use this section to satisfy the **Visualization Quality** rubric criterion:
-
-- Explain why your plot types are appropriate.  
-- Comment on labels, legends, colors, and overall readability.  
-- Mention any steps you took to make plots accessible and interpretable.
-
+```{r}
+visualize(null_distribution) +
+  shade_p_value(obs_stat = observed_stat, direction = "greater")
+```
+Since we got a P-value of one we fail to reject the null hypothesis of diversity having no effect on college retention rate.
 # 6. Modeling Approach
 
 Explain how you framed the problem and which models you chose:
