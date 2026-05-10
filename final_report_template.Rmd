@@ -59,9 +59,30 @@ and 7 columns.
 - Any ethical, privacy, or bias considerations (if applicable).
 
 ```{r setup-data, echo=FALSE, message=FALSE, warning=FALSE}
-# Example: load a dataset (replace with your own)
-# library(readr)
-# data <- read_csv("data/your_data.csv")
+# DO NOT ALTER THIS CHUNK
+# Set knitr options
+knitr::opts_chunk$set(
+  echo = TRUE,
+  eval = TRUE,
+  fig.width = 5,
+  fig.asp = 0.618,
+  out.width = "70%",
+  dpi = 120,
+  fig.align = "center",
+  cache = FALSE
+)
+# Load required packages
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(infer))
+suppressPackageStartupMessages(library(modelr))
+suppressPackageStartupMessages(library(broom))
+# Load dataset
+college <- read_rds("college.rds") %>%
+  type_convert(
+    na=combine("", "NA", "PrivacySuppressed")
+  )
+# Set seed
+set.seed(98261936)
 ```
 
 # 3. Data Cleaning & Preprocessing
@@ -86,33 +107,114 @@ Another problem that we had to work through was working through NA's in the data
 - Any scaling or encoding.
 
 ```{r cleaning, eval=FALSE}
-# Example pseudo-code for cleaning:
-# data_clean <- data |>
-#   dplyr::filter(!is.na(target_variable)) |>
-#   dplyr::mutate(
-#     new_feature = some_transformation(old_feature)
-#   )
+college_reduced<-college%>%
+select(
+UNITID,
+RET_FT4,
+UGDS_WHITE,
+UGDS_BLACK,
+UGDS_HISP,
+UGDS_ASIAN,
+UGDS_AIAN,
+UGDS_NHPI,
+REGION
+)
+```
+
+```{r, cleaning, eval=FALSE}
+college_reduced<-college_reduced%>%
+rename(
+retention_rate=RET_FT4,
+pct_white=UGDS_WHITE,
+pct_black=UGDS_BLACK,
+pct_hispanic=UGDS_HISP,
+pct_asian=UGDS_ASIAN,
+pct_aian=UGDS_AIAN,
+pct_nhpi=UGDS_NHPI,
+region =REGION
+)
+```
+
+```{r, cleaning, eval=FALSE}
+college_reduced<-college_reduced%>%
+mutate(
+  pct_nonwhite=pct_black+pct_hispanic+pct_asian+pct_aian+pct_nhpi
+)
+```
+
+```{r, cleaning, eval=FALSE}
+college_reduced <- college_reduced %>%
+  mutate(
+    region_name = recode(region,
+      `0` = "U.S. Service Schools",
+      `1` = "New England",
+      `2` = "Mid East",
+      `3` = "Great Lakes",
+      `4` = "Plains",
+      `5` = "Southeast",
+      `6` = "Southwest",
+      `7` = "Rocky Mountains",
+      `8` = "Far West",
+      .default = NA_character_
+    )
+  )
+```
+
+```{r, cleaning, eval=FALSE}
+college_reduced <- college_reduced %>%
+  mutate(
+    diversity_group = if_else(
+      pct_nonwhite > median(pct_nonwhite, na.rm = TRUE),
+      "Higher Diversity",
+      "Lower Diversity"
+    )
+  )
 ```
 
 # 4. Exploratory Data Analysis (EDA)
 
-This section maps directly to the **EDA** part of the rubric:
+The exploratory data analysis focuses on the relationship between diversity and retention rate. The main variables examined are retention_rate, pct_nonwhite, and diversity_group. These graphs and summary statistics help show whether higher diversity schools appear to have different retention patterns than lower diversity schools. 
 
-- Summary statistics  
-- Visualizations  
-- Interpretation connected to the research question  
+The summary table compares retention rates between higher diversity and lower diversity universities.
 
 ```{r eda-summary, message=FALSE, warning=FALSE}
-# library(dplyr)
-# summary(data_clean)
+summary_stats <- college_reduced %>%
+group_by(diversity_group) %>%
+summarize(
+count = n(),
+mean = mean(retention_rate, na.rm = TRUE),
+median = median(retention_rate, na.rm = TRUE),
+sd = sd(retention_rate, na.rm = TRUE),
+iqr = IQR(retention_rate, na.rm = TRUE),
+min = min(retention_rate, na.rm = TRUE),
+max = max(retention_rate, na.rm = TRUE)
+)
+summary_stats
 ```
 
+The summary statistics show noticeable differences in retention rates between the two diversity groups. Lower diversity schools had a higher average retention rate of about 0.745 compared to about 0.665 for higher diversity schools. The median retention rate was also higher for lower diversity schools. Higher diversity schools also had greater variability, shown by the larger standard deviation and interquartile range.
+
+
+The first graph compares the distribution of retention rates between higher diversity and lower diversity schools.
+
 ```{r eda-plot-example, message=FALSE, warning=FALSE, fig.cap="Example histogram of a numeric variable (EDA rubric)."}
-# library(ggplot2)
-# ggplot(data_clean, aes(x = some_numeric_variable)) +
-#   geom_histogram(binwidth = 5, color = "white") +
-#   labs(x = "Some Variable", y = "Count", title = "Distribution of Some Variable")
+ggplot(college_reduced, aes(x = retention_rate, fill = diversity_group)) +
+  geom_histogram(
+    aes(y = after_stat(density)),
+    binwidth = 0.05,
+    position = "identity",
+    alpha = 0.5
+  ) +
+  labs(
+    title = "Distribution of Retention Rates by Diversity Group",
+    x = "Retention Rate",
+    y = "Density",
+    fill = "Diversity Group"
+  )
 ```
+This graph shows that both groups have many schools with retention rates between about 0.6 and 0.9. However, the lower diversity group appears more concentrated around higher retention values, while the higher diversity group has a wider spread and includes more schools with lower retention rates.
+
+
 
 # 5. Visualization Quality and Storytelling
 
