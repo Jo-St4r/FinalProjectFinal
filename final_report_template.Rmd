@@ -3,13 +3,13 @@ title: "CDS 101 – Final Project Report"
 author: "Group Name / Members"
 date: "`r format(Sys.Date(), '%B %d, %Y')`"
 output:
+  pdf_document:
+    toc: true
   html_document:
     css: "gmu-cds101.css"
     toc: true
     toc_depth: 3
     number_sections: true
-  pdf_document:
-    toc: true
 ---
 
 > Replace this template text with your own writing, keeping the headings and overall structure aligned with the **CDS 101 project rubric**.
