@@ -3,13 +3,13 @@ title: "CDS 101 – Final Project Report"
 author: "Group Name / Members"
 date: "`r format(Sys.Date(), '%B %d, %Y')`"
 output:
+  pdf_document:
+    toc: true
   html_document:
     css: "gmu-cds101.css"
     toc: true
     toc_depth: 3
     number_sections: true
-  pdf_document:
-    toc: true
 ---
 
 > Replace this template text with your own writing, keeping the headings and overall structure aligned with the **CDS 101 project rubric**.
@@ -67,6 +67,17 @@ and 7 columns.
 # 3. Data Cleaning & Preprocessing
 
 Describe the steps you took to make the data usable, for example:
+The first thing we did to make the data more usable was narrowing down the data set and making the 'college_reduced' data set.
+
+Next we renamed the variables that we were using to make them easier to understand.
+
+We worked to create new groupings like pct_nonwhite, which made it easier to show if a school has a higher or lower diversity 
+
+Another column was added to name the regions of the schools, and another to sort the types of diversity as higher or lower.
+
+Another problem that we had to work through was working through NA's in the data analysis section, which is what 'is.na'(Filters out rows with NAs) and 'na.rm = TRUE'(ignores NAs when calculating) are for.
+
+
 
 - Handling missing values (drop, impute, etc.).  
 - Fixing types (dates, numeric vs. categorical).  
@@ -104,6 +115,13 @@ This section maps directly to the **EDA** part of the rubric:
 ```
 
 # 5. Visualization Quality and Storytelling
+
+The histogram is an appropriate graph because it compares the distribution of retention rates between two sources, we used 'fill = diversity_group' to give different colors to differentiate between higher and lower diversity rates. Setting alpha to 0.5 makes the overlapping bars transparent so you can see both sets at the same time.
+
+The faceted scatterplot graph is the correct graph for looking at the amount of diversity across different regions. We faceted by region name which makes each panel reasonable, and to make the data easier to read we used 'geom_smooth(method = "lm")' to add a trend line to each graph, which shows coorelation.
+
+The null distribution plot is a histogram type of graph, and shows what the differences in mean would look like if it was due to chance alone. This graph was to visualize the null distribution, and helps clarify why we got a p-value of one.
+
 
 Use this section to satisfy the **Visualization Quality** rubric criterion:
 
@@ -144,6 +162,14 @@ Describe:
 ```
 
 # 8. Conclusions & Recommendations
+
+Based on the testing of our hypothesis we found no evidence that suggests that diversity has a positive effect on retention rate. Our observed statistic which was -0.080404 showed that schools with higher diversity actually had lower retention rates. This pattern is evident when looking at the facted scatterplots you can see the negative relationship between diversity and retention rates. 
+
+One of our biggest limitations was the amount of NA's in the dataset which could have skewed the dataset, another limitation is that retention rate has more influences than just diversity rate, which means those schools could have external factors effecting retention rate.
+
+In the future this could be done by looking at each racial group separately instead of combining them, and having more control for other variables of external factors, and statistics over a timeline could give more accurate data.
+
+
 
 Summarize the key takeaways:
 
