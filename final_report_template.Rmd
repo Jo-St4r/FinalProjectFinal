@@ -121,7 +121,7 @@ REGION
 )
 ```
 
-```{r, cleaning, eval=FALSE}
+```{r}
 college_reduced<-college_reduced%>%
 rename(
 retention_rate=RET_FT4,
@@ -135,14 +135,14 @@ region =REGION
 )
 ```
 
-```{r, cleaning, eval=FALSE}
+```{r}
 college_reduced<-college_reduced%>%
 mutate(
   pct_nonwhite=pct_black+pct_hispanic+pct_asian+pct_aian+pct_nhpi
 )
 ```
 
-```{r, cleaning, eval=FALSE}
+```{r}
 college_reduced <- college_reduced %>%
   mutate(
     region_name = recode(region,
@@ -160,7 +160,7 @@ college_reduced <- college_reduced %>%
   )
 ```
 
-```{r, cleaning, eval=FALSE}
+```{r}
 college_reduced <- college_reduced %>%
   mutate(
     diversity_group = if_else(
