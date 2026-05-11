@@ -1,6 +1,6 @@
 ---
 title: "CDS 101 – Final Project Report"
-author: "Group Name / Members"
+author: "CTRl ALT Delete/ Jordan Bridgers & Jacob Yugar-Cartagena"
 date: "`r format(Sys.Date(), '%B %d, %Y')`"
 output:
   pdf_document:
