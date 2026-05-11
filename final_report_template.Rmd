@@ -1,6 +1,6 @@
 ---
 title: "CDS 101 – Final Project Report"
-author: "Group Name / Members"
+author: "Cntrl Alt Del"
 date: "`r format(Sys.Date(), '%B %d, %Y')`"
 output:
   pdf_document:
@@ -26,12 +26,6 @@ Compare their diversity
 Compare their retention rates
 Analyze any correlation if there is any
 
-Our main assumption is that diversity will have a positive effect on retention rate
-- Clearly state the main problem or question you are investigating.  
-- Explain why it is interesting or important.  
-- Define the objective(s) of your analysis.  
-- Mention any key assumptions.
-
 # 2. Data Acquisition & Description
 
 The dataset we are using is called college.rds
@@ -52,11 +46,6 @@ RET_FT4- The retention rate of 4 year universities in America
 The original dataset has 2228 columns, and 5 columns, our dataset has 6614 rows
 and 7 columns. 
 
-- Name and source of the dataset(s).  
-- How you obtained the data (download link, API, etc.).  
-- Brief description of the variables / features (with units if relevant).  
-- Approximate size (rows, columns).  
-- Any ethical, privacy, or bias considerations (if applicable).
 
 ```{r setup-data, echo=FALSE, message=FALSE, warning=FALSE}
 # DO NOT ALTER THIS CHUNK
@@ -98,15 +87,7 @@ Another column was added to name the regions of the schools, and another to sort
 
 Another problem that we had to work through was working through NA's in the data analysis section, which is what 'is.na'(Filters out rows with NAs) and 'na.rm = TRUE'(ignores NAs when calculating) are for.
 
-
-
-- Handling missing values (drop, impute, etc.).  
-- Fixing types (dates, numeric vs. categorical).  
-- Removing outliers (if done).  
-- Creating new features (feature engineering).  
-- Any scaling or encoding.
-
-```{r cleaning, eval=FALSE}
+```{r}
 college_reduced <- college %>%
 select(
 UNITID,
@@ -121,7 +102,7 @@ REGION
 )
 ```
 
-```{r, cleaning, eval=FALSE}
+```{r}
 college_reduced<-college_reduced%>%
 rename(
 retention_rate=RET_FT4,
@@ -135,14 +116,14 @@ region =REGION
 )
 ```
 
-```{r, cleaning, eval=FALSE}
+```{r}
 college_reduced<-college_reduced%>%
 mutate(
   pct_nonwhite=pct_black+pct_hispanic+pct_asian+pct_aian+pct_nhpi
 )
 ```
 
-```{r, cleaning, eval=FALSE}
+```{r}
 college_reduced <- college_reduced %>%
   mutate(
     region_name = recode(region,
@@ -160,7 +141,7 @@ college_reduced <- college_reduced %>%
   )
 ```
 
-```{r, cleaning, eval=FALSE}
+```{r}
 college_reduced <- college_reduced %>%
   mutate(
     diversity_group = if_else(
