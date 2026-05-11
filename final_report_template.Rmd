@@ -27,10 +27,6 @@ Compare their retention rates
 Analyze any correlation if there is any
 
 Our main assumption is that diversity will have a positive effect on retention rate
-- Clearly state the main problem or question you are investigating.  
-- Explain why it is interesting or important.  
-- Define the objective(s) of your analysis.  
-- Mention any key assumptions.
 
 # 2. Data Acquisition & Description
 
@@ -38,7 +34,7 @@ The dataset we are using is called college.rds
 
 We obtained it through a 
 download link from canvas. The variables we are using are 
-UGDS_WHITE- Total share of enrollment of undergraduate degree-seeking students
+UGDS_WHITE - Total share of enrollment of undergraduate degree-seeking students
 who are white
 UGDS_BLACK- Total share of enrollment of undergraduate degree-seeking 
 students who are black UGDS_HISP- Total
