@@ -1,6 +1,6 @@
 ---
 title: "CDS 101 – Final Project Report"
-author: "CTRl ALT Delete/ Jordan Bridgers & Jacob Yugar-Cartagena"
+author: "CTRl ALT Delete/ Jordan Bridgers & Jacob Yugar"
 date: "`r format(Sys.Date(), '%B %d, %Y')`"
 output:
   pdf_document:
@@ -106,7 +106,7 @@ Another problem that we had to work through was working through NA's in the data
 - Creating new features (feature engineering).  
 - Any scaling or encoding.
 
-```{r cleaning, eval=FALSE}
+```{r, cleaning}
 college_reduced <- college %>%
 select(
 UNITID,
@@ -272,33 +272,25 @@ Since we got a P-value of one we fail to reject the null hypothesis of diversity
 
 Explain how you framed the problem and which models you chose:
 
-- Type of task (regression, classification, etc.).  
-- Baseline model or heuristic, if used.  
-- Main model(s) chosen and why they are appropriate.
+For this project, we used statistical inference to investigate whether diversity has an effect on retention rates in American 4-year colleges.
+
+The main analysis focused on a difference in means hypothesis test comparing retention rates between higher diversity and lower diversity schools. Schools were grouped based on whether their pct_nonwhite value was above or below the median.
+
+We created a null distribution using permutation methods with the infer package to test whether the observed difference in retention rates could have occurred by chance.
+
+In addition to the hypothesis testing, simple linear regression trend lines were added to the scatterplots using geom_smooth(method = "lm") to help visualize the relationship between diversity and retention rate across regions.
+
+
 
 # 7. Model Implementation & Evaluation
 
 This corresponds to the **Model Implementation & Evaluation** rubric criterion.
 
-Describe:
 
-- Features used.  
-- Data splitting strategy (train/test or cross-validation).  
-- Metrics used (accuracy, F1, RMSE, etc.).  
-- Tables/plots summarizing performance.  
-- A short interpretation of each metric/plot.
+The statistical inference analysis used retention_rate as the response variable and diversity_group as the explanatory variable. Schools were divided into “Higher Diversity” and “Lower Diversity” groups based on whether their pct_nonwhite value was above or below the median.
 
-```{r modeling, eval=FALSE}
-# Example structure:
-# set.seed(123)
-# train_index <- sample(seq_len(nrow(data_clean)), size = 0.8 * nrow(data_clean))
-# train <- data_clean[train_index, ]
-# test  <- data_clean[-train_index, ]
-#
-# model <- glm(target ~ ., data = train, family = binomial)
-# preds <- predict(model, newdata = test, type = "response")
-# # compute metrics...
-```
+Before running the analysis, rows with missing values in diversity_group were removed so the hypothesis test and null distribution could run correctly.
+
 
 # 8. Conclusions & Recommendations
 
@@ -312,17 +304,14 @@ In the future this could be done by looking at each racial group separately inst
 
 Summarize the key takeaways:
 
-- Answer your original research question(s) directly.  
-- Highlight the most important patterns or relationships you found.  
-- Discuss limitations (data size, bias, missing variables, etc.).  
-- Suggest possible extensions or future work.
+Answer your original research question(s) directly.  
+Highlight the most important patterns or relationships you found.  
+Discuss limitations (data size, bias, missing variables, etc.).  
+Suggest possible extensions or future work.
 
 # 9. Code Quality & Reproducibility
 
-Briefly document how someone else can reproduce your results:
-
-- Which R scripts or Rmd files to run.  
-- Any required R packages.  
+To reproduce this project, someone would need the college.rds dataset and this RMarkdown file. The dataset should be saved in the same folder as the RMarkdown file so the read_rds("college.rds") function works correctly.The required R packages for this project are tidyverse, infer, modelr, and broom. These packages are loaded in the setup chunk at the beginning of the project.The project can be reproduced by running the RMarkdown file from top to bottom in order. This includes the setup section, data cleaning and preprocessing, exploratory data analysis, visualization, statistical inference testing, and conclusion sections. A seed was also set using set.seed(98261936) so the null distribution simulations and statistical results can be reproduced consistently. 
 
 ```{r session-info, echo=FALSE}
 sessionInfo()
@@ -332,9 +321,9 @@ sessionInfo()
 
 List any references you used, such as:
 
-- Dataset documentation.  
-- Research papers or articles.  
-- Tutorials or blog posts.
+emehex. (2015, March 4). Removing NA observations with dplyr::filter(). Stack Overflow. https://stackoverflow.com/questions/28857653/removing-na-observations-with-dplyrfilter
+
+Ismay, C. (2025, September 16). Chapter 9 Hypothesis Testing | Statistical Inference via Data Science. Moderndive.com. https://moderndive.com/9-hypothesis-testing.html
 
 # Appendix (Optional)
 

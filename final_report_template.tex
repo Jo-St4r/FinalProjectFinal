@@ -1,0 +1,662 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\documentclass[
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={CDS 101 -- Final Project Report},
+  pdfauthor={CTRl ALT Delete/ Jordan Bridgers \& Jacob Yugar},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{CDS 101 -- Final Project Report}
+\author{CTRl ALT Delete/ Jordan Bridgers \& Jacob Yugar}
+\date{May 11, 2026}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+\begin{quote}
+Replace this template text with your own writing, keeping the headings
+and overall structure aligned with the \textbf{CDS 101 project rubric}.
+\end{quote}
+
+\section{1. Problem Definition}\label{problem-definition}
+
+The problem we are investigating is if diversity has an effect on
+retention rates in American 4 year college. I think the question is
+important because it can show students more information about their
+college and how that correlates to how oithers feel about it; which can
+help students make more informed decisions about their college choices.
+
+Our goal is to find out whether or not higher diversity has a positive
+or negative correlation if any on retention rate.
+
+Our objectives are to: Analyze 4 year universities Compare their
+diversity Compare their retention rates Analyze any correlation if there
+is any
+
+Our main assumption is that diversity will have a positive effect on
+retention rate - Clearly state the main problem or question you are
+investigating.\\
+- Explain why it is interesting or important.\\
+- Define the objective(s) of your analysis.\\
+- Mention any key assumptions.
+
+\section{2. Data Acquisition \&
+Description}\label{data-acquisition-description}
+
+The dataset we are using is called college.rds
+
+We obtained it through a download link from canvas. The variables we are
+using are UGDS\_WHITE- Total share of enrollment of undergraduate
+degree-seeking students who are white UGDS\_BLACK- Total share of
+enrollment of undergraduate degree-seeking students who are black
+UGDS\_HISP- Total share of enrollment of undergraduate degree-seeking
+students who are Hispanic UGDS\_ASIAN- Total share of enrollment of
+undergraduate degree-seeking students who are Asian UGDS\_AIAN- Total
+share of enrollment of undergraduate degree-seeking students who are
+American Indian/Alaska Native UGDS\_NHPI- Total share of enrollment of
+undergraduate degree-seeking students who are Native Hawaiian/Pacific
+Islander RET\_FT4- The retention rate of 4 year universities in America
+The original dataset has 2228 columns, and 5 columns, our dataset has
+6614 rows and 7 columns.
+
+\begin{itemize}
+\tightlist
+\item
+  Name and source of the dataset(s).\\
+\item
+  How you obtained the data (download link, API, etc.).\\
+\item
+  Brief description of the variables / features (with units if
+  relevant).\\
+\item
+  Approximate size (rows, columns).\\
+\item
+  Any ethical, privacy, or bias considerations (if applicable).
+\end{itemize}
+
+\section{3. Data Cleaning \&
+Preprocessing}\label{data-cleaning-preprocessing}
+
+Describe the steps you took to make the data usable, for example: The
+first thing we did to make the data more usable was narrowing down the
+data set and making the `college\_reduced' data set.
+
+Next we renamed the variables that we were using to make them easier to
+understand.
+
+We worked to create new groupings like pct\_nonwhite, which made it
+easier to show if a school has a higher or lower diversity
+
+Another column was added to name the regions of the schools, and another
+to sort the types of diversity as higher or lower.
+
+Another problem that we had to work through was working through NA's in
+the data analysis section, which is what `is.na'(Filters out rows with
+NAs) and `na.rm = TRUE'(ignores NAs when calculating) are for.
+
+\begin{itemize}
+\tightlist
+\item
+  Handling missing values (drop, impute, etc.).\\
+\item
+  Fixing types (dates, numeric vs.~categorical).\\
+\item
+  Removing outliers (if done).\\
+\item
+  Creating new features (feature engineering).\\
+\item
+  Any scaling or encoding.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{college\_reduced }\OtherTok{\textless{}{-}}\NormalTok{ college }\SpecialCharTok{\%\textgreater{}\%}
+\FunctionTok{select}\NormalTok{(}
+\NormalTok{UNITID,}
+\NormalTok{RET\_FT4,}
+\NormalTok{UGDS\_WHITE,}
+\NormalTok{UGDS\_BLACK,}
+\NormalTok{UGDS\_HISP,}
+\NormalTok{UGDS\_ASIAN,}
+\NormalTok{UGDS\_AIAN,}
+\NormalTok{UGDS\_NHPI,}
+\NormalTok{REGION}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{college\_reduced}\OtherTok{\textless{}{-}}\NormalTok{college\_reduced}\SpecialCharTok{\%\textgreater{}\%}
+\FunctionTok{rename}\NormalTok{(}
+\AttributeTok{retention\_rate=}\NormalTok{RET\_FT4,}
+\AttributeTok{pct\_white=}\NormalTok{UGDS\_WHITE,}
+\AttributeTok{pct\_black=}\NormalTok{UGDS\_BLACK,}
+\AttributeTok{pct\_hispanic=}\NormalTok{UGDS\_HISP,}
+\AttributeTok{pct\_asian=}\NormalTok{UGDS\_ASIAN,}
+\AttributeTok{pct\_aian=}\NormalTok{UGDS\_AIAN,}
+\AttributeTok{pct\_nhpi=}\NormalTok{UGDS\_NHPI,}
+\AttributeTok{region =}\NormalTok{REGION}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{college\_reduced}\OtherTok{\textless{}{-}}\NormalTok{college\_reduced}\SpecialCharTok{\%\textgreater{}\%}
+\FunctionTok{mutate}\NormalTok{(}
+  \AttributeTok{pct\_nonwhite=}\NormalTok{pct\_black}\SpecialCharTok{+}\NormalTok{pct\_hispanic}\SpecialCharTok{+}\NormalTok{pct\_asian}\SpecialCharTok{+}\NormalTok{pct\_aian}\SpecialCharTok{+}\NormalTok{pct\_nhpi}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{college\_reduced }\OtherTok{\textless{}{-}}\NormalTok{ college\_reduced }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{region\_name =} \FunctionTok{recode}\NormalTok{(region,}
+      \StringTok{\textasciigrave{}}\AttributeTok{0}\StringTok{\textasciigrave{}} \OtherTok{=} \StringTok{"U.S. Service Schools"}\NormalTok{,}
+      \StringTok{\textasciigrave{}}\AttributeTok{1}\StringTok{\textasciigrave{}} \OtherTok{=} \StringTok{"New England"}\NormalTok{,}
+      \StringTok{\textasciigrave{}}\AttributeTok{2}\StringTok{\textasciigrave{}} \OtherTok{=} \StringTok{"Mid East"}\NormalTok{,}
+      \StringTok{\textasciigrave{}}\AttributeTok{3}\StringTok{\textasciigrave{}} \OtherTok{=} \StringTok{"Great Lakes"}\NormalTok{,}
+      \StringTok{\textasciigrave{}}\AttributeTok{4}\StringTok{\textasciigrave{}} \OtherTok{=} \StringTok{"Plains"}\NormalTok{,}
+      \StringTok{\textasciigrave{}}\AttributeTok{5}\StringTok{\textasciigrave{}} \OtherTok{=} \StringTok{"Southeast"}\NormalTok{,}
+      \StringTok{\textasciigrave{}}\AttributeTok{6}\StringTok{\textasciigrave{}} \OtherTok{=} \StringTok{"Southwest"}\NormalTok{,}
+      \StringTok{\textasciigrave{}}\AttributeTok{7}\StringTok{\textasciigrave{}} \OtherTok{=} \StringTok{"Rocky Mountains"}\NormalTok{,}
+      \StringTok{\textasciigrave{}}\AttributeTok{8}\StringTok{\textasciigrave{}} \OtherTok{=} \StringTok{"Far West"}\NormalTok{,}
+      \AttributeTok{.default =} \ConstantTok{NA\_character\_}
+\NormalTok{    )}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{college\_reduced }\OtherTok{\textless{}{-}}\NormalTok{ college\_reduced }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{diversity\_group =} \FunctionTok{if\_else}\NormalTok{(}
+\NormalTok{      pct\_nonwhite }\SpecialCharTok{\textgreater{}} \FunctionTok{median}\NormalTok{(pct\_nonwhite, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{),}
+      \StringTok{"Higher Diversity"}\NormalTok{,}
+      \StringTok{"Lower Diversity"}
+\NormalTok{    )}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\section{4. Exploratory Data Analysis
+(EDA)}\label{exploratory-data-analysis-eda}
+
+The exploratory data analysis focuses on the relationship between
+diversity and retention rate. The main variables examined are
+retention\_rate, pct\_nonwhite, and diversity\_group. These graphs and
+summary statistics help show whether higher diversity schools appear to
+have different retention patterns than lower diversity schools.
+
+The summary table compares retention rates between higher diversity and
+lower diversity universities.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{summary\_stats }\OtherTok{\textless{}{-}}\NormalTok{ college\_reduced }\SpecialCharTok{\%\textgreater{}\%}
+\FunctionTok{group\_by}\NormalTok{(diversity\_group) }\SpecialCharTok{\%\textgreater{}\%}
+\FunctionTok{summarize}\NormalTok{(}
+\AttributeTok{count =} \FunctionTok{n}\NormalTok{(),}
+\AttributeTok{mean =} \FunctionTok{mean}\NormalTok{(retention\_rate, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{),}
+\AttributeTok{median =} \FunctionTok{median}\NormalTok{(retention\_rate, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{),}
+\AttributeTok{sd =} \FunctionTok{sd}\NormalTok{(retention\_rate, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{),}
+\AttributeTok{iqr =} \FunctionTok{IQR}\NormalTok{(retention\_rate, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{),}
+\AttributeTok{min =} \FunctionTok{min}\NormalTok{(retention\_rate, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{),}
+\AttributeTok{max =} \FunctionTok{max}\NormalTok{(retention\_rate, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{)}
+\NormalTok{summary\_stats}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 3 x 8
+##   diversity_group  count    mean median     sd    iqr   min   max
+##   <chr>            <int>   <dbl>  <dbl>  <dbl>  <dbl> <dbl> <dbl>
+## 1 Higher Diversity  3155   0.665  0.706  0.219  0.257     0     1
+## 2 Lower Diversity   3156   0.745  0.770  0.158  0.175     0     1
+## 3 <NA>               747 NaN     NA     NA     NA       Inf  -Inf
+\end{verbatim}
+
+The summary statistics show noticeable differences in retention rates
+between the two diversity groups. Lower diversity schools had a higher
+average retention rate of about 0.745 compared to about 0.665 for higher
+diversity schools. The median retention rate was also higher for lower
+diversity schools. Higher diversity schools also had greater
+variability, shown by the larger standard deviation and interquartile
+range.
+
+The first graph compares the distribution of retention rates between
+higher diversity and lower diversity schools.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(college\_reduced, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ retention\_rate, }\AttributeTok{fill =}\NormalTok{ diversity\_group)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_histogram}\NormalTok{(}
+    \FunctionTok{aes}\NormalTok{(}\AttributeTok{y =} \FunctionTok{after\_stat}\NormalTok{(density)),}
+    \AttributeTok{binwidth =} \FloatTok{0.05}\NormalTok{,}
+    \AttributeTok{position =} \StringTok{"identity"}\NormalTok{,}
+    \AttributeTok{alpha =} \FloatTok{0.5}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{title =} \StringTok{"Distribution of Retention Rates by Diversity Group"}\NormalTok{,}
+    \AttributeTok{x =} \StringTok{"Retention Rate"}\NormalTok{,}
+    \AttributeTok{y =} \StringTok{"Density"}\NormalTok{,}
+    \AttributeTok{fill =} \StringTok{"Diversity Group"}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{final_report_template_files/figure-latex/eda-plot-example-1} 
+
+}
+
+\caption{Example histogram of a numeric variable (EDA rubric).}\label{fig:eda-plot-example}
+\end{figure}
+
+This graph shows that both groups have many schools with retention rates
+between about 0.6 and 0.9. However, the lower diversity group appears
+more concentrated around higher retention values, while the higher
+diversity group has a wider spread and includes more schools with lower
+retention rates.
+
+\section{5. Visualization Quality and
+Storytelling}\label{visualization-quality-and-storytelling}
+
+The histogram is an appropriate graph because it compares the
+distribution of retention rates between two sources, we used `fill =
+diversity\_group' to give different colors to differentiate between
+higher and lower diversity rates. Setting alpha to 0.5 makes the
+overlapping bars transparent so you can see both sets at the same time.
+
+The faceted scatterplot graph is the correct graph for looking at the
+amount of diversity across different regions. We faceted by region name
+which makes each panel reasonable, and to make the data easier to read
+we used `geom\_smooth(method = ``lm'')' to add a trend line to each
+graph, which shows coorelation.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(college\_reduced, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ pct\_nonwhite, }\AttributeTok{y =}\NormalTok{ retention\_rate)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{alpha =} \FloatTok{0.4}\NormalTok{, }\AttributeTok{size =} \FloatTok{0.4}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_smooth}\NormalTok{(}\AttributeTok{method =} \StringTok{"lm"}\NormalTok{, }\AttributeTok{se =} \ConstantTok{FALSE}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{facet\_wrap}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{region\_name) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{title =} \StringTok{"Diversity vs Retention by Region"}\NormalTok{,}
+    \AttributeTok{x =} \StringTok{"Diversity (Non{-}White \%)"}\NormalTok{,}
+    \AttributeTok{y =} \StringTok{"Retention Rate"}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `geom_smooth()` using formula = 'y ~ x'
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: Removed 4898 rows containing non-finite outside the scale range
+## (`stat_smooth()`).
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: Removed 4898 rows containing missing values or values outside the scale range
+## (`geom_point()`).
+\end{verbatim}
+
+\begin{center}\includegraphics[width=0.7\linewidth]{final_report_template_files/figure-latex/unnamed-chunk-5-1} \end{center}
+
+This code chunk is here to find the mean retention rates of schools with
+lower and higher diversity, and it shows that lower diversity schools
+have a higher mean retention rate.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{college\_reduced }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(diversity\_group) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{mean\_retention =} \FunctionTok{mean}\NormalTok{(retention\_rate, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 3 x 2
+##   diversity_group  mean_retention
+##   <chr>                     <dbl>
+## 1 Higher Diversity          0.665
+## 2 Lower Diversity           0.745
+## 3 <NA>                    NaN
+\end{verbatim}
+
+This code chunk is here to fix errors with NA's in the null distribution
+code chunk, which was causing it to see 3 columns instead of two, and
+removes the third column that was made up of NA's.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{college\_reduced }\OtherTok{\textless{}{-}}\NormalTok{ college\_reduced }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(diversity\_group))}
+\end{Highlighting}
+\end{Shaded}
+
+This code chunk exists to create the null distribution, which creates
+10,000 differences in means that assume that diversity has no effect on
+retention rate.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{null\_distribution }\OtherTok{\textless{}{-}}\NormalTok{ college\_reduced }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{specify}\NormalTok{(retention\_rate }\SpecialCharTok{\textasciitilde{}}\NormalTok{ diversity\_group) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{hypothesize}\NormalTok{(}\AttributeTok{null =} \StringTok{"independence"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{generate}\NormalTok{(}\DecValTok{10000}\NormalTok{, }\AttributeTok{type =} \StringTok{"permute"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{calculate}\NormalTok{(}\AttributeTok{stat =} \StringTok{"diff in means"}\NormalTok{, }\AttributeTok{order =} \FunctionTok{c}\NormalTok{(}\StringTok{"Higher Diversity"}\NormalTok{, }\StringTok{"Lower Diversity"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: Removed 4151 rows containing missing values.
+\end{verbatim}
+
+this is just here to show the null distribution simulations
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{null\_distribution}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Response: retention_rate (numeric)
+## Explanatory: diversity_group (factor)
+## Null...
+## # A tibble: 10,000 x 2
+##    replicate     stat
+##        <int>    <dbl>
+##  1         1 -0.0143 
+##  2         2  0.0111 
+##  3         3  0.0132 
+##  4         4  0.0111 
+##  5         5  0.0209 
+##  6         6  0.00605
+##  7         7  0.00449
+##  8         8  0.00197
+##  9         9 -0.00963
+## 10        10 -0.00600
+## # i 9,990 more rows
+\end{verbatim}
+
+This code chunk is here to calculate the actual difference in
+means(−0.080404), and then store it as `observed\_stat', so we can use
+it for the p-value code and coorelating graph
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{  observed\_stat }\OtherTok{\textless{}{-}} \FloatTok{0.6650291} \SpecialCharTok{{-}} \FloatTok{0.7454331}
+\NormalTok{  observed\_stat}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -0.080404
+\end{verbatim}
+
+The null distribution plot is a histogram type of graph, and shows what
+the differences in mean would look like if it was due to chance alone.
+This graph was to visualize the null distribution, and helps clarify why
+we got a p-value of one.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{visualize}\NormalTok{(null\_distribution) }\SpecialCharTok{+}
+  \FunctionTok{shade\_p\_value}\NormalTok{(}\AttributeTok{obs\_stat =}\NormalTok{ observed\_stat, }\AttributeTok{direction =} \StringTok{"greater"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics[width=0.7\linewidth]{final_report_template_files/figure-latex/unnamed-chunk-11-1} \end{center}
+
+Since we got a P-value of one we fail to reject the null hypothesis of
+diversity having no effect on college retention rate. \# 6. Modeling
+Approach
+
+Explain how you framed the problem and which models you chose:
+
+\begin{itemize}
+\tightlist
+\item
+  Type of task (regression, classification, etc.).\\
+\item
+  Baseline model or heuristic, if used.\\
+\item
+  Main model(s) chosen and why they are appropriate.
+\end{itemize}
+
+\section{7. Model Implementation \&
+Evaluation}\label{model-implementation-evaluation}
+
+This corresponds to the \textbf{Model Implementation \& Evaluation}
+rubric criterion.
+
+Describe:
+
+\begin{itemize}
+\tightlist
+\item
+  Features used.\\
+\item
+  Data splitting strategy (train/test or cross-validation).\\
+\item
+  Metrics used (accuracy, F1, RMSE, etc.).\\
+\item
+  Tables/plots summarizing performance.\\
+\item
+  A short interpretation of each metric/plot.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Example structure:}
+\CommentTok{\# set.seed(123)}
+\CommentTok{\# train\_index \textless{}{-} sample(seq\_len(nrow(data\_clean)), size = 0.8 * nrow(data\_clean))}
+\CommentTok{\# train \textless{}{-} data\_clean[train\_index, ]}
+\CommentTok{\# test  \textless{}{-} data\_clean[{-}train\_index, ]}
+\CommentTok{\#}
+\CommentTok{\# model \textless{}{-} glm(target \textasciitilde{} ., data = train, family = binomial)}
+\CommentTok{\# preds \textless{}{-} predict(model, newdata = test, type = "response")}
+\CommentTok{\# \# compute metrics...}
+\end{Highlighting}
+\end{Shaded}
+
+\section{8. Conclusions \&
+Recommendations}\label{conclusions-recommendations}
+
+Based on the testing of our hypothesis we found no evidence that
+suggests that diversity has a positive effect on retention rate. Our
+observed statistic which was -0.080404 showed that schools with higher
+diversity actually had lower retention rates. This pattern is evident
+when looking at the facted scatterplots you can see the negative
+relationship between diversity and retention rates.
+
+One of our biggest limitations was the amount of NA's in the dataset
+which could have skewed the dataset, another limitation is that
+retention rate has more influences than just diversity rate, which means
+those schools could have external factors effecting retention rate.
+
+In the future this could be done by looking at each racial group
+separately instead of combining them, and having more control for other
+variables of external factors, and statistics over a timeline could give
+more accurate data.
+
+Summarize the key takeaways:
+
+Answer your original research question(s) directly.\\
+Highlight the most important patterns or relationships you found.\\
+Discuss limitations (data size, bias, missing variables, etc.).\\
+Suggest possible extensions or future work.
+
+\section{9. Code Quality \&
+Reproducibility}\label{code-quality-reproducibility}
+
+Briefly document how someone else can reproduce your results:
+
+Which R scripts or Rmd files to run.\\
+Any required R packages.
+
+\begin{verbatim}
+## R version 4.5.2 (2025-10-31 ucrt)
+## Platform: x86_64-w64-mingw32/x64
+## Running under: Windows 11 x64 (build 26200)
+## 
+## Matrix products: default
+##   LAPACK version 3.12.1
+## 
+## locale:
+## [1] LC_COLLATE=English_United States.utf8 
+## [2] LC_CTYPE=English_United States.utf8   
+## [3] LC_MONETARY=English_United States.utf8
+## [4] LC_NUMERIC=C                          
+## [5] LC_TIME=English_United States.utf8    
+## 
+## time zone: America/New_York
+## tzcode source: internal
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+##  [1] broom_1.0.12    modelr_0.1.11   infer_1.1.0     lubridate_1.9.4
+##  [5] forcats_1.0.1   stringr_1.6.0   dplyr_1.1.4     purrr_1.2.1    
+##  [9] readr_2.1.6     tidyr_1.3.2     tibble_3.3.1    ggplot2_4.0.1  
+## [13] tidyverse_2.0.0
+## 
+## loaded via a namespace (and not attached):
+##  [1] utf8_1.2.6         generics_0.1.4     lattice_0.22-7     stringi_1.8.7     
+##  [5] hms_1.1.4          digest_0.6.39      magrittr_2.0.4     evaluate_1.0.5    
+##  [9] grid_4.5.2         timechange_0.4.0   RColorBrewer_1.1-3 fastmap_1.2.0     
+## [13] Matrix_1.7-4       backports_1.5.0    mgcv_1.9-3         scales_1.4.0      
+## [17] cli_3.6.5          rlang_1.1.7        crayon_1.5.3       splines_4.5.2     
+## [21] withr_3.0.2        yaml_2.3.12        otel_0.2.0         tools_4.5.2       
+## [25] tzdb_0.5.0         vctrs_0.7.1        R6_2.6.1           lifecycle_1.0.5   
+## [29] pkgconfig_2.0.3    pillar_1.11.1      gtable_0.3.6       glue_1.8.0        
+## [33] xfun_0.56          tidyselect_1.2.1   rstudioapi_0.18.0  knitr_1.51        
+## [37] farver_2.1.2       htmltools_0.5.9    nlme_3.1-168       rmarkdown_2.30    
+## [41] labeling_0.4.3     compiler_4.5.2     S7_0.2.1
+\end{verbatim}
+
+\section{10. References}\label{references}
+
+List any references you used, such as:
+
+Dataset documentation.\\
+Research papers or articles.\\
+Tutorials or blog posts.
+
+\section{Appendix (Optional)}\label{appendix-optional}
+
+Include extra plots, diagnostic checks, or model comparisons if needed.
+
+\end{document}
