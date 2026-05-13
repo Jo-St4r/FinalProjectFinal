@@ -4,19 +4,14 @@ author: "Cntrl Alt Del"
 date: "`r format(Sys.Date(), '%B %d, %Y')`"
 output:
   pdf_document:
-    toc: true
-  html_document:
-    css: "gmu-cds101.css"
-    toc: true
-    toc_depth: 3
-    number_sections: true
+    latex_engine: xelatex
 ---
 
 > Replace this template text with your own writing, keeping the headings and overall structure aligned with the **CDS 101 project rubric**.
 
 # 1. Problem Definition
 
-The problem we are investigating is if diversity has an effect on retention rates in American 4 year college.  I think the question is important because it can show students more information about their college and how that correlates to how oithers feel about it; which can help students make more informed decisions about their college choices. 
+The problem we are investigating is if diversity has an effect on retention rates in American 4 year college, our data comes from the college.rds data set which has a plethora of information about American colleges, our study is based on American 4 year universities.  I think the question is important because it can show students more information about their college and how that correlates to how others feel about it; which can help students make more informed decisions about their college choices. 
 
 Our goal is to find out whether or not higher diversity has a positive or negative correlation if any on retention rate.
 
@@ -178,7 +173,7 @@ The summary statistics show noticeable differences in retention rates between th
 
 The first graph compares the distribution of retention rates between higher diversity and lower diversity schools.
 
-```{r eda-plot-example, message=FALSE, warning=FALSE, fig.cap="Example histogram of a numeric variable (EDA rubric)."}
+```{r eda-plot-example, message=FALSE, warning=FALSE, fig.cap="Retention rate distribution based on diversity level"}
 ggplot(college_reduced, aes(x = retention_rate, fill = diversity_group)) +
   geom_histogram(
     aes(y = after_stat(density)),
@@ -202,7 +197,7 @@ This graph shows that both groups have many schools with retention rates between
 The histogram is an appropriate graph because it compares the distribution of retention rates between two sources, we used 'fill = diversity_group' to give different colors to differentiate between higher and lower diversity rates. Setting alpha to 0.5 makes the overlapping bars transparent so you can see both sets at the same time.
 
 The faceted scatterplot graph is the correct graph for looking at the amount of diversity across different regions. We faceted by region name which makes each panel reasonable, and to make the data easier to read we used 'geom_smooth(method = "lm")' to add a trend line to each graph, which shows coorelation.
-```{r}
+```{r, fig.width=8, fig.height=5}
 ggplot(college_reduced, aes(x = pct_nonwhite, y = retention_rate)) +
   geom_point(alpha = 0.4, size = 0.4) +
   geom_smooth(method = "lm", se = FALSE) +
@@ -219,7 +214,7 @@ college_reduced %>%
   group_by(diversity_group) %>%
   summarize(mean_retention = mean(retention_rate, na.rm = TRUE))
 ```
-This code chunk is here to fix errors with NA's in the null distribution code chunk, which was causing it to see 3 columns instead of two, and removes the third column that was made up of NA's.
+This code chunk is here to fix errors with NA's in the null distribution code chunk, which was causing it to see 3 columns instead of two, and removes the third column that was made up of NA's, the NA's could have been schools with a very low nonwhite population, or schools that don't keep tracak of their student's demographics. 
 ```{r}
 college_reduced <- college_reduced %>%
   filter(!is.na(diversity_group))
@@ -253,21 +248,22 @@ Since we got a P-value of one we fail to reject the null hypothesis of diversity
 
 Explain how you framed the problem and which models you chose:
 
-- Type of task (regression, classification, etc.).  
-- Baseline model or heuristic, if used.  
-- Main model(s) chosen and why they are appropriate.
+For this project, we used statistical inference to investigate whether diversity has an effect on retention rates in American 4-year colleges.
+
+The main analysis focused on a difference in means hypothesis test comparing retention rates between higher diversity and lower diversity schools. Schools were grouped based on whether their pct_nonwhite value was above or below the median.
+
+We created a null distribution using permutation methods with the infer package to test whether the observed difference in retention rates could have occurred by chance.
+
+In addition to the hypothesis testing, simple linear regression trend lines were added to the scatterplots using geom_smooth(method = "lm") to help visualize the relationship between diversity and retention rate across regions
 
 # 7. Model Implementation & Evaluation
 
 This corresponds to the **Model Implementation & Evaluation** rubric criterion.
 
-Describe:
 
-- Features used.  
-- Data splitting strategy (train/test or cross-validation).  
-- Metrics used (accuracy, F1, RMSE, etc.).  
-- Tables/plots summarizing performance.  
-- A short interpretation of each metric/plot.
+The statistical inference analysis used retention_rate as the response variable and diversity_group as the explanatory variable. Schools were divided into “Higher Diversity” and “Lower Diversity” groups based on whether their pct_nonwhite value was above or below the median.
+
+Before running the analysis, rows with missing values in diversity_group were removed so the hypothesis test and null distribution could run correctly..
 
 ```{r modeling, eval=FALSE}
 # Example structure:
@@ -285,38 +281,28 @@ Describe:
 
 Based on the testing of our hypothesis we found no evidence that suggests that diversity has a positive effect on retention rate. Our observed statistic which was -0.080404 showed that schools with higher diversity actually had lower retention rates. This pattern is evident when looking at the facted scatterplots you can see the negative relationship between diversity and retention rates. 
 
-One of our biggest limitations was the amount of NA's in the dataset which could have skewed the dataset, another limitation is that retention rate has more influences than just diversity rate, which means those schools could have external factors effecting retention rate.
+One of our biggest limitations was the amount of NA's(schools without reports on diversity) in the dataset which could have skewed the dataset, another limitation is that retention rate has more influences than just diversity rate, which means those schools could have external factors effecting retention rate.
+
+Another limitation that could apply for a study like this is the timeframe of the dataset, instead of a dataset that isn't just a snapshot, but showing how diversity and retention rates change could provide more data. 
 
 In the future this could be done by looking at each racial group separately instead of combining them, and having more control for other variables of external factors, and statistics over a timeline could give more accurate data.
 
 
-
-Summarize the key takeaways:
-
-- Answer your original research question(s) directly.  
-- Highlight the most important patterns or relationships you found.  
-- Discuss limitations (data size, bias, missing variables, etc.).  
-- Suggest possible extensions or future work.
-
 # 9. Code Quality & Reproducibility
 
-Briefly document how someone else can reproduce your results:
-
-- Which R scripts or Rmd files to run.  
-- Any required R packages.  
+To reproduce this project, someone would need the college.rds dataset and this RMarkdown file. The dataset should be saved in the same folder as the RMarkdown file so the read_rds("college.rds") function works correctly.The required R packages for this project are tidyverse, infer, modelr, and broom. These packages are loaded in the setup chunk at the beginning of the project.The project can be reproduced by running the RMarkdown file from top to bottom in order. This includes the setup section, data cleaning and preprocessing, exploratory data analysis, visualization, statistical inference testing, and conclusion sections. A seed was also set using set.seed(98261936) so the null distribution simulations and statistical results can be reproduced consistently. 
 
 ```{r session-info, echo=FALSE}
 sessionInfo()
 ```
 
+
 # 10. References
 
 List any references you used, such as:
 
-- Dataset documentation.  
-- Research papers or articles.  
-- Tutorials or blog posts.
+emehex. (2015, March 4). Removing NA observations with dplyr::filter(). Stack Overflow. https://stackoverflow.com/questions/28857653/removing-na-observations-with-dplyrfilter
 
-# Appendix (Optional)
+Ismay, C. (2025, September 16). Chapter 9 Hypothesis Testing | Statistical Inference via Data Science. Moderndive.com. https://moderndive.com/9-hypothesis-testing.html
 
-Include extra plots, diagnostic checks, or model comparisons if needed.
+
