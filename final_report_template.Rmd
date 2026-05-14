@@ -7,7 +7,6 @@ output:
     latex_engine: xelatex
 ---
 
-> Replace this template text with your own writing, keeping the headings and overall structure aligned with the **CDS 101 project rubric**.
 
 # 1. Problem Definition
 
@@ -196,7 +195,7 @@ This graph shows that both groups have many schools with retention rates between
 
 The histogram is an appropriate graph because it compares the distribution of retention rates between two sources, we used 'fill = diversity_group' to give different colors to differentiate between higher and lower diversity rates. Setting alpha to 0.5 makes the overlapping bars transparent so you can see both sets at the same time.
 
-The faceted scatterplot graph is the correct graph for looking at the amount of diversity across different regions. We faceted by region name which makes each panel reasonable, and to make the data easier to read we used 'geom_smooth(method = "lm")' to add a trend line to each graph, which shows coorelation.
+The faceted scatterplot graph is the correct graph for looking at the amount of diversity across different regions. We faceted by region name which makes each panel reasonable, and to make the data easier to read we used 'geom_smooth(method = "lm")' to add a trend line to each graph, which shows correlation.
 ```{r, fig.width=8, fig.height=5}
 ggplot(college_reduced, aes(x = pct_nonwhite, y = retention_rate)) +
   geom_point(alpha = 0.4, size = 0.4) +
@@ -214,7 +213,7 @@ college_reduced %>%
   group_by(diversity_group) %>%
   summarize(mean_retention = mean(retention_rate, na.rm = TRUE))
 ```
-This code chunk is here to fix errors with NA's in the null distribution code chunk, which was causing it to see 3 columns instead of two, and removes the third column that was made up of NA's, the NA's could have been schools with a very low nonwhite population, or schools that don't keep tracak of their student's demographics. 
+This code chunk is here to fix errors with NA's in the null distribution code chunk, which was causing it to see 3 columns instead of two, and removes the third column that was made up of NA's, the NA's could have been schools with a very low nonwhite population, or schools that don't keep track of their student's demographics. 
 ```{r}
 college_reduced <- college_reduced %>%
   filter(!is.na(diversity_group))
@@ -231,7 +230,7 @@ this is just here to show the null distribution simulations
 ```{r}
 null_distribution
 ``` 
-This code chunk is here to calculate the actual difference in means(−0.080404), and then store it as 'observed_stat', so we can use it for the p-value code and coorelating graph
+This code chunk is here to calculate the actual difference in means(−0.080404), and then store it as 'observed_stat', so we can use it for the p-value code and correlating graph
 
 ```{r}
   observed_stat <- 0.6650291 - 0.7454331
@@ -243,10 +242,9 @@ The null distribution plot is a histogram type of graph, and shows what the diff
 visualize(null_distribution) +
   shade_p_value(obs_stat = observed_stat, direction = "greater")
 ```
-Since we got a P-value of one we fail to reject the null hypothesis of diversity having no effect on college retention rate.
-# 6. Modeling Approach
+Since we got a P-value of one, because most of the null distribution falls above our observed statistic (-0.08) we fail to reject the null hypothesis of diversity having no effect on college retention rate.
 
-Explain how you framed the problem and which models you chose:
+# 6. Modeling Approach
 
 For this project, we used statistical inference to investigate whether diversity has an effect on retention rates in American 4-year colleges.
 
@@ -258,30 +256,16 @@ In addition to the hypothesis testing, simple linear regression trend lines were
 
 # 7. Model Implementation & Evaluation
 
-This corresponds to the **Model Implementation & Evaluation** rubric criterion.
-
-
 The statistical inference analysis used retention_rate as the response variable and diversity_group as the explanatory variable. Schools were divided into “Higher Diversity” and “Lower Diversity” groups based on whether their pct_nonwhite value was above or below the median.
 
 Before running the analysis, rows with missing values in diversity_group were removed so the hypothesis test and null distribution could run correctly..
 
-```{r modeling, eval=FALSE}
-# Example structure:
-# set.seed(123)
-# train_index <- sample(seq_len(nrow(data_clean)), size = 0.8 * nrow(data_clean))
-# train <- data_clean[train_index, ]
-# test  <- data_clean[-train_index, ]
-#
-# model <- glm(target ~ ., data = train, family = binomial)
-# preds <- predict(model, newdata = test, type = "response")
-# # compute metrics...
-```
 
 # 8. Conclusions & Recommendations
 
-Based on the testing of our hypothesis we found no evidence that suggests that diversity has a positive effect on retention rate. Our observed statistic which was -0.080404 showed that schools with higher diversity actually had lower retention rates. This pattern is evident when looking at the facted scatterplots you can see the negative relationship between diversity and retention rates. 
+Based on the testing of our hypothesis we found no evidence that suggests that diversity has a positive effect on retention rate. Our observed statistic which was -0.080404 showed that schools with higher diversity actually had lower retention rates. This pattern is evident when looking at the faceted scatterplots you can see the negative relationship between diversity and retention rates. 
 
-One of our biggest limitations was the amount of NA's(schools without reports on diversity) in the dataset which could have skewed the dataset, another limitation is that retention rate has more influences than just diversity rate, which means those schools could have external factors effecting retention rate.
+One of our biggest limitations was the amount of NA's(schools without reports on diversity, or other factors effecting diversity) in the dataset which could have skewed the dataset. All these NA's were removed, totaling 4,151 rows, which is a significant amount of data. Another limitation is that retention rate has more influences than just diversity rate, which means those schools could have external factors effecting retention rate.
 
 Another limitation that could apply for a study like this is the timeframe of the dataset, instead of a dataset that isn't just a snapshot, but showing how diversity and retention rates change could provide more data. 
 
